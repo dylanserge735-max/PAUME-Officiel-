@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administration | PAUME</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #061a2d, #0b4f8a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 430px;
+    }
+
+    .login-card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 40px 30px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .logo img {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+    }
+
+    h1 {
+      text-align: center;
+      color: #073b68;
+      font-size: 27px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      color: #333;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 15px;
+      border: 1px solid #d5d5d5;
+      border-radius: 10px;
+      font-size: 15px;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    input:focus {
+      border-color: #0875c9;
+      box-shadow: 0 0 0 3px rgba(8, 117, 201, 0.12);
+    }
+
+    .password-wrapper {
+      position: relative;
+    }
+
+    .password-wrapper input {
+      padding-right: 50px;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .login-button {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      background: #0875c9;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: 0.2s;
+    }
+
+    .login-button:hover {
+      background: #065d9f;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 22px;
+      color: #0875c9;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .footer {
+      text-align: center;
+      color: rgba(255,255,255,0.75);
+      font-size: 12px;
+      margin-top: 18px;
+    }
+
+    #message {
+      display: none;
+      margin-bottom: 18px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #fff3cd;
+      color: #664d03;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="login-container">
+
+    <div class="login-card">
+
+      <div class="logo">
+        <img src="../logo.jpg" alt="Logo PAUME">
+      </div>
+
+      <h1>Administration PAUME</h1>
+
+      <p class="subtitle">
+        Espace sécurisé de gestion du site
+      </p>
+
+      <div id="message"></div>
+
+      <form id="loginForm">
+
+        <div class="form-group">
+          <label for="email">Adresse e-mail</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Votre adresse e-mail"
+            required
+            autocomplete="username"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="password">Mot de passe</label>
+
+          <div class="password-wrapper">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Votre mot de passe"
+              required
+              autocomplete="current-password"
+            >
+
+            <button
+              type="button"
+              class="toggle-password"
+              onclick="togglePassword()"
+              aria-label="Afficher ou masquer le mot de passe"
+            >
+              👁️
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="login-button">
+          Se connecter
+        </button>
+
+      </form>
+
+      <a href="../index.html" class="back-link">
+        ← Retour au site PAUME
+      </a>
+
+    </div>
+
+    <div class="footer">
+      PAUME — Pour Avoir Un Meilleur Environnement
+    </div>
+
+  </div>
+
+  <script>
+    function togglePassword() {
+      const password = document.getElementById("password");
+      password.type =
+        password.type === "password" ? "text" : "password";
+    }
+
+    document
+      .getElementById("loginForm")
+      .addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        const message = document.getElementById("message");
+
+        message.style.display = "block";
+        message.textContent =
+          "L'authentification sera activée après la connexion à notre serveur sécurisé.";
+      });
+  </script>
+
+</body>
+</html>
