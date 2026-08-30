@@ -1,1 +1,219 @@
 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projets | Administration PAUME</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f7fb;
+      color: #222;
+    }
+
+    header {
+      background: #0057a8;
+      color: white;
+      padding: 18px 20px;
+    }
+
+    header a {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    header h1 {
+      margin-top: 12px;
+      font-size: 23px;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 0 18px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 4px 15px rgba(0,0,0,.08);
+    }
+
+    .info {
+      margin-bottom: 20px;
+      padding: 14px;
+      background: #eef6ff;
+      border-radius: 9px;
+      color: #24506f;
+      font-size: 14px;
+    }
+
+    .field {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ccc;
+      border-radius: 9px;
+      font-size: 15px;
+    }
+
+    textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    button {
+      border: none;
+      border-radius: 9px;
+      padding: 14px 20px;
+      background: #0057a8;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 20px;
+      color: #0057a8;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <a href="tableau%20de%20bord.html">← Tableau de bord</a>
+  <h1>📁 Gestion des projets et activités</h1>
+</header>
+
+<main>
+
+  <div class="card">
+
+    <div class="info">
+      Ajoutez ici les projets et activités réalisés par PAUME.
+    </div>
+
+    <form id="projectForm">
+
+      <div class="field">
+        <label for="title">Nom du projet / activité</label>
+        <input
+          type="text"
+          id="title"
+          placeholder="Ex. Journée de salubrité à la Grande Gare"
+          required
+        >
+      </div>
+
+      <div class="field">
+        <label for="category">Domaine</label>
+
+        <select id="category" required>
+          <option value="">Choisir un domaine</option>
+          <option>Environnement</option>
+          <option>Éducation</option>
+          <option>Épanouissement</option>
+          <option>Entraide</option>
+          <option>Économie</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="date">Date</label>
+        <input type="date" id="date">
+      </div>
+
+      <div class="field">
+        <label for="location">Lieu</label>
+        <input
+          type="text"
+          id="location"
+          placeholder="Ex. Grande Gare"
+        >
+      </div>
+
+      <div class="field">
+        <label for="organizer">Organisateur / partenaire</label>
+        <input
+          type="text"
+          id="organizer"
+          placeholder="Ex. Radio Génération 100% Développement durable"
+        >
+      </div>
+
+      <div class="field">
+        <label for="objective">Objectif</label>
+        <textarea
+          id="objective"
+          placeholder="Quel était l'objectif de l'activité ?"
+        ></textarea>
+      </div>
+
+      <div class="field">
+        <label for="description">Description / déroulement</label>
+        <textarea
+          id="description"
+          placeholder="Décrivez l'activité..."
+          required
+        ></textarea>
+      </div>
+
+      <div class="field">
+        <label for="results">Résultats obtenus</label>
+        <textarea
+          id="results"
+          placeholder="Quels résultats ont été obtenus ?"
+        ></textarea>
+      </div>
+
+      <button type="submit">
+        💾 Enregistrer le projet
+      </button>
+
+    </form>
+
+    <a class="back" href="tableau%20de%20bord.html">
+      ← Retour au tableau de bord
+    </a>
+
+  </div>
+
+</main>
+
+<script>
+  document.getElementById("projectForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    alert(
+      "Le projet est prêt à être enregistré. " +
+      "La connexion à Neon sera ajoutée ensuite."
+    );
+  });
+</script>
+
+</body>
+</html>
