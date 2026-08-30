@@ -3,72 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tableau de bord | PAUME</title>
+
+  <title>Tableau de bord — PAUME</title>
 
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      font-family: Arial, sans-serif;
     }
 
     body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f4f7fa;
-      color: #1d2b36;
+      background: #f4f7fb;
+      color: #222;
     }
 
-    /* EN-TÊTE */
     header {
-      background: #073b68;
+      background: #0057a8;
       color: white;
-      padding: 18px 22px;
+      padding: 20px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.15);
-    }
-
-    .brand {
-      display: flex;
       align-items: center;
-      gap: 12px;
     }
 
-    .brand img {
-      width: 48px;
-      height: 48px;
-      object-fit: contain;
-      background: white;
-      border-radius: 50%;
-      padding: 4px;
-    }
-
-    .brand h1 {
-      font-size: 19px;
-    }
-
-    .brand span {
-      display: block;
-      font-size: 11px;
-      opacity: 0.8;
-      margin-top: 3px;
+    header h1 {
+      font-size: 22px;
     }
 
     .logout {
-      border: 1px solid rgba(255,255,255,0.5);
-      background: transparent;
-      color: white;
-      padding: 9px 13px;
+      background: white;
+      color: #0057a8;
+      border: none;
+      padding: 10px 15px;
       border-radius: 8px;
       cursor: pointer;
+      font-weight: bold;
     }
 
-    /* CONTENU */
-    main {
+    .container {
       max-width: 1200px;
-      margin: auto;
-      padding: 28px 18px;
+      margin: 30px auto;
+      padding: 0 20px;
     }
 
     .welcome {
@@ -76,289 +53,153 @@
     }
 
     .welcome h2 {
-      color: #073b68;
-      margin-bottom: 7px;
+      color: #0057a8;
+      margin-bottom: 8px;
     }
 
-    .welcome p {
-      color: #667580;
-      font-size: 14px;
-    }
-
-    /* STATISTIQUES */
-    .stats {
+    .cards {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 15px;
-      margin-bottom: 30px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
     }
 
-    .stat-card {
+    .card {
       background: white;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 5px 18px rgba(0,0,0,0.08);
     }
 
-    .stat-card .number {
-      font-size: 28px;
-      font-weight: bold;
-      color: #0875c9;
-      margin-bottom: 6px;
+    .card h3 {
+      color: #0057a8;
+      margin-bottom: 10px;
     }
 
-    .stat-card p {
-      color: #697780;
-      font-size: 13px;
-    }
-
-    /* MENU ADMIN */
-    .section-title {
-      color: #073b68;
-      font-size: 19px;
-      margin-bottom: 15px;
-    }
-
-    .admin-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-
-    .admin-card {
-      background: white;
-      border-radius: 14px;
-      padding: 23px;
-      text-decoration: none;
-      color: inherit;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
-      border: 1px solid #e8edf1;
-      transition: 0.2s;
-    }
-
-    .admin-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-    }
-
-    .icon {
-      font-size: 30px;
-      margin-bottom: 13px;
-    }
-
-    .admin-card h3 {
-      color: #073b68;
-      margin-bottom: 7px;
-      font-size: 17px;
-    }
-
-    .admin-card p {
-      color: #71808a;
-      font-size: 13px;
+    .card p {
+      color: #666;
       line-height: 1.5;
     }
 
-    /* ACTIVITÉ RÉCENTE */
-    .recent {
+    .actions {
       margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+    }
+
+    .action {
       background: white;
-      border-radius: 14px;
-      padding: 22px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
-    }
-
-    .recent h3 {
-      color: #073b68;
-      margin-bottom: 15px;
-    }
-
-    .empty {
-      padding: 20px;
+      border: 2px solid #0057a8;
+      color: #0057a8;
+      padding: 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
       text-align: center;
-      color: #7b8790;
-      background: #f7f9fa;
-      border-radius: 8px;
-      font-size: 14px;
     }
 
-    /* RESPONSIVE */
-    @media (max-width: 850px) {
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .admin-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+    .action:hover {
+      background: #0057a8;
+      color: white;
     }
 
-    @media (max-width: 520px) {
-      header {
-        padding: 14px;
-      }
-
-      .brand h1 {
-        font-size: 16px;
-      }
-
-      .brand span {
-        font-size: 10px;
-      }
-
-      .logout {
-        padding: 8px 9px;
-        font-size: 12px;
-      }
-
-      main {
-        padding: 22px 14px;
-      }
-
-      .stats {
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-      }
-
-      .stat-card {
-        padding: 15px;
-      }
-
-      .stat-card .number {
-        font-size: 23px;
-      }
-
-      .admin-grid {
-        grid-template-columns: 1fr;
-      }
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #777;
     }
   </style>
 </head>
 
 <body>
 
-  <header>
-    <div class="brand">
-      <img src="../logo.jpg" alt="Logo PAUME">
+<header>
 
-      <div>
-        <h1>Administration PAUME</h1>
-        <span>Pour Avoir Un Meilleur Environnement</span>
-      </div>
+  <h1>Administration PAUME</h1>
+
+  <button class="logout" onclick="logout()">
+    Déconnexion
+  </button>
+
+</header>
+
+<div class="container">
+
+  <div class="welcome">
+
+    <h2>Tableau de bord</h2>
+
+    <p>
+      Bienvenue dans l'espace d'administration du site officiel de PAUME.
+    </p>
+
+  </div>
+
+  <div class="cards">
+
+    <div class="card">
+      <h3>📰 Actualités</h3>
+      <p>
+        Ajouter, modifier et gérer les actualités de PAUME.
+      </p>
     </div>
 
-    <button class="logout" onclick="logout()">
-      Déconnexion
-    </button>
-  </header>
-
-  <main>
-
-    <section class="welcome">
-      <h2>Tableau de bord</h2>
+    <div class="card">
+      <h3>📁 Projets</h3>
       <p>
-        Bienvenue dans l'espace d'administration du site officiel de PAUME.
+        Gérer les projets et les activités réalisées par l'ONG.
       </p>
-    </section>
+    </div>
 
-    <section class="stats">
+    <div class="card">
+      <h3>📸 Galerie</h3>
+      <p>
+        Ajouter et organiser les photos et vidéos des activités.
+      </p>
+    </div>
 
-      <div class="stat-card">
-        <div class="number">0</div>
-        <p>Actualités</p>
-      </div>
+    <div class="card">
+      <h3>👥 Membres</h3>
+      <p>
+        Gérer les informations relatives aux membres de l'administration.
+      </p>
+    </div>
 
-      <div class="stat-card">
-        <div class="number">0</div>
-        <p>Activités / projets</p>
-      </div>
+  </div>
 
-      <div class="stat-card">
-        <div class="number">0</div>
-        <p>Médias</p>
-      </div>
+  <div class="actions">
 
-      <div class="stat-card">
-        <div class="number">0</div>
-        <p>Rapports</p>
-      </div>
+    <div class="action">
+      ➕ Nouvelle actualité
+    </div>
 
-    </section>
+    <div class="action">
+      📁 Nouveau projet
+    </div>
 
-    <h2 class="section-title">
-      Gestion du site
-    </h2>
+    <div class="action">
+      📸 Ajouter des médias
+    </div>
 
-    <section class="admin-grid">
+    <div class="action">
+      ⚙️ Paramètres
+    </div>
 
-      <a href="actualites.html" class="admin-card">
-        <div class="icon">📰</div>
-        <h3>Actualités</h3>
-        <p>
-          Publier, modifier et supprimer les actualités de PAUME.
-        </p>
-      </a>
+  </div>
 
-      <a href="activites.html" class="admin-card">
-        <div class="icon">🌱</div>
-        <h3>Activités & projets</h3>
-        <p>
-          Ajouter les activités réalisées et présenter leurs résultats.
-        </p>
-      </a>
+</div>
 
-      <a href="medias.html" class="admin-card">
-        <div class="icon">📸</div>
-        <h3>Galerie & médias</h3>
-        <p>
-          Gérer les photos et vidéos des activités de l'ONG.
-        </p>
-      </a>
+<footer>
+  PAUME — Pour Avoir Un Meilleur Environnement
+</footer>
 
-      <a href="rapports.html" class="admin-card">
-        <div class="icon">📄</div>
-        <h3>Rapports</h3>
-        <p>
-          Ajouter et organiser les rapports d'activités de PAUME.
-        </p>
-      </a>
+<script>
 
-      <a href="utilisateurs.html" class="admin-card">
-        <div class="icon">👥</div>
-        <h3>Utilisateurs</h3>
-        <p>
-          Gérer les comptes et les niveaux d'accès à l'administration.
-        </p>
-      </a>
+  function logout() {
+    window.location.href = "index.html";
+  }
 
-      <a href="../index.html" class="admin-card">
-        <div class="icon">🌐</div>
-        <h3>Voir le site</h3>
-        <p>
-          Retourner au site public officiel de PAUME.
-        </p>
-      </a>
-
-    </section>
-
-    <section class="recent">
-
-      <h3>Activité récente</h3>
-
-      <div class="empty">
-        Aucune activité enregistrée pour le moment.
-        <br>
-        Les données apparaîtront ici lorsque la base de données sera connectée.
-      </div>
-
-    </section>
-
-  </main>
-
-  <script>
-    function logout() {
-      window.location.href = "index.html";
-    }
-  </script>
+</script>
 
 </body>
 </html>
