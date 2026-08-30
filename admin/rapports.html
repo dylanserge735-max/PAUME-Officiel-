@@ -1,1 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rapports | Administration PAUME</title>
 
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f7fb;
+      color: #222;
+    }
+
+    header {
+      background: #0057a8;
+      color: white;
+      padding: 18px 20px;
+    }
+
+    header a {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    header h1 {
+      margin-top: 12px;
+      font-size: 23px;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 0 18px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 4px 15px rgba(0,0,0,.08);
+    }
+
+    .info {
+      margin-bottom: 20px;
+      padding: 14px;
+      background: #eef6ff;
+      border-radius: 9px;
+      color: #24506f;
+      font-size: 14px;
+    }
+
+    .field {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ccc;
+      border-radius: 9px;
+      font-size: 15px;
+    }
+
+    input[type="file"] {
+      padding: 10px;
+      background: #fafafa;
+    }
+
+    button {
+      border: none;
+      border-radius: 9px;
+      padding: 14px 20px;
+      background: #0057a8;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 20px;
+      color: #0057a8;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <a href="tableau%20de%20bord.html">← Tableau de bord</a>
+  <h1>📄 Gestion des rapports</h1>
+</header>
+
+<main>
+
+  <div class="card">
+
+    <div class="info">
+      Ajoutez les rapports d'activités et documents officiels de PAUME.
+    </div>
+
+    <form id="reportForm">
+
+      <div class="field">
+        <label for="title">Titre du rapport</label>
+
+        <input
+          type="text"
+          id="title"
+          placeholder="Ex. Rapport de la journée de salubrité"
+          required
+        >
+      </div>
+
+      <div class="field">
+        <label for="category">Type de rapport</label>
+
+        <select id="category" required>
+          <option value="">Choisir</option>
+          <option>Rapport d'activité</option>
+          <option>Rapport financier</option>
+          <option>Rapport de projet</option>
+          <option>Document officiel</option>
+          <option>Autre</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="date">Date</label>
+        <input type="date" id="date">
+      </div>
+
+      <div class="field">
+        <label for="file">Document</label>
+
+        <input
+          type="file"
+          id="file"
+          accept=".pdf,.doc,.docx"
+          required
+        >
+      </div>
+
+      <button type="submit">
+        📤 Ajouter le rapport
+      </button>
+
+    </form>
+
+    <a class="back" href="tableau%20de%20bord.html">
+      ← Retour au tableau de bord
+    </a>
+
+  </div>
+
+</main>
+
+<script>
+  document.getElementById("reportForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    alert(
+      "Le rapport est sélectionné. " +
+      "L'envoi réel sera ajouté lors de la connexion au serveur."
+    );
+  });
+</script>
+
+</body>
+</html>
