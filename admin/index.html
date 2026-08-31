@@ -163,6 +163,74 @@
 
     });
   </script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.querySelector("form");
 
+  if (!form) {
+    console.error("Formulaire de connexion introuvable.");
+    return;
+  }
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const inputs = form.querySelectorAll("input");
+
+    const username = inputs[0]?.value.trim();
+    const password = inputs[1]?.value;
+
+    if (!username || !password) {
+      alert("Veuillez renseigner votre identifiant et votre mot de passe.");
+      return;
+    }
+
+    const button = form.querySelector("button[type='submit']");
+
+    if (button) {
+      button.disabled = true;
+      button.textContent = "Connexion...";
+    }
+
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          username,
+          password
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        alert(data.error || "Identifiants incorrects.");
+        return;
+      }
+
+      // Stockage temporaire des informations non sensibles
+      sessionStorage.setItem(
+        "paume_admin_user",
+        JSON.stringify(data.user)
+      );
+
+      // Accès au tableau de bord
+      window.location.href = "tableau%20de%20bord.html";
+
+    } catch (error) {
+      console.error(error);
+      alert("Impossible de contacter le serveur.");
+    } finally {
+      if (button) {
+        button.disabled = false;
+        button.textContent = "Se connecter";
+      }
+    }
+  });
+});
+</script>
 </body>
 </html>
