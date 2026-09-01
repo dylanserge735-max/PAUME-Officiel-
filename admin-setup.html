@@ -72,19 +72,56 @@
 <div id="result"></div>
 
 <script>
-document.getElementById("form").addEventListener("submit", function(e) {
+document.getElementById("form").addEventListener("submit", async function(e) {
   e.preventDefault();
 
-  alert("Le bouton fonctionne. Le formulaire est bien détecté.");
+  const result = document.getElementById("result");
 
   const password = document.getElementById("password").value;
   const confirm = document.getElementById("confirm").value;
 
   if (password !== confirm) {
-    alert("Les mots de passe ne correspondent pas.");
+    alert("Les deux mots de passe ne correspondent pas.");
     return;
   }
 
-  alert("Le formulaire est prêt à envoyer la demande.");
+  result.style.display = "block";
+  result.textContent = "Création du compte en cours...";
+
+  try {
+    const response = await fetch("/api/create-admin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        setupKey: document.getElementById("setupKey").value,
+        username: document.getElementById("username").value,
+        password: password,
+        full_name: document.getElementById("full_name").value,
+        role_id: 1
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      result.style.background = "#d4edda";
+      result.style.color = "#155724";
+      result.textContent = "Compte administrateur créé avec succès.";
+    } else {
+      result.style.background = "#f8d7da";
+      result.style.color = "#721c24";
+      result.textContent = data.message || "Erreur lors de la création.";
+    }
+
+  } catch (error) {
+    console.error(error);
+
+    result.style.background = "#f8d7da";
+    result.style.color = "#721c24";
+    result.textContent =
+      "Impossible de contacter le serveur. Vérifie le déploiement.";
+  }
 });
 </script>
