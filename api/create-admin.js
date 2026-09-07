@@ -65,12 +65,12 @@ export default async function handler(req, res) {
     const passwordHash = `${salt}:${hash}`;
 
     const result = await sql`
-      INSERT INTO admin_users
-        (username, password_hash, full_name, role_id)
-      VALUES
-        (${username}, ${passwordHash}, ${full_name}, ${role_id})
-      RETURNING id, username, full_name, role_id
-    `;
+      const result = await sql`
+  INSERT INTO admin_users
+  (username, password_hash, role, full_name, role_id)
+  VALUES (${username}, ${passwordHash}, 'SUPER_ADMIN', ${full_name}, ${role_id})
+  RETURNING id, username, full_name, role, role_id
+`;
 
     return res.status(201).json({
       success: true,
