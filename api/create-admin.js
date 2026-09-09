@@ -1,9 +1,9 @@
-import { neon } from "@neondatabase/serverless";
-import crypto from "crypto";
+const { neon } = require("@neondatabase/serverless");
+const crypto = require("crypto");
 
 const sql = neon(process.env.DATABASE_URL);
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({
       success: false,
