@@ -64,7 +64,6 @@ module.exports = async function handler(req, res) {
 
     const passwordHash = `${salt}:${hash}`;
 
-    const result = await sql`
       const result = await sql`
   INSERT INTO admin_users
   (username, password_hash, role, full_name, role_id)
@@ -85,4 +84,4 @@ module.exports = async function handler(req, res) {
       message: "Erreur interne du serveur"
     });
   }
-}
+};
