@@ -82,6 +82,11 @@
       background: #003b73;
     }
 
+    button:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
     #message {
       margin-top: 15px;
       color: #d00000;
@@ -111,30 +116,32 @@
     <form id="loginForm">
 
       <label for="username">Identifiant</label>
+
       <input
         type="text"
         id="username"
         placeholder="Votre identifiant"
+        autocomplete="username"
         required
       >
 
       <label for="password">Mot de passe</label>
+
       <input
         type="password"
         id="password"
         placeholder="Votre mot de passe"
+        autocomplete="current-password"
         required
       >
 
-      <button type="submit">
+      <button type="submit" id="loginButton">
         Se connecter
       </button>
 
     </form>
 
-    <p id="message">
-      Identifiant ou mot de passe incorrect.
-    </p>
+    <p id="message"></p>
 
     <div class="footer">
       PAUME — Pour Avoir Un Meilleur Environnement
@@ -143,94 +150,76 @@
   </div>
 
   <script>
-    document.getElementById("loginForm").addEventListener("submit", function(e) {
+    const form = document.getElementById("loginForm");
+    const message = document.getElementById("message");
+    const button = document.getElementById("loginButton");
 
-      e.preventDefault();
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
 
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
+      const username = document
+        .getElementById("username")
+        .value
+        .trim();
 
-      /*
-       * ACCÈS TEMPORAIRE POUR LA CONSTRUCTION DU SITE
-       * La vraie authentification sécurisée sera ajoutée ensuite.
-       */
+      const password = document
+        .getElementById("password")
+        .value;
 
-      if (username === "admin" && password === "PAUME2026") {
-        window.location.href = "tableau%20de%20bord.html";
-      } else {
-        document.getElementById("message").style.display = "block";
-      }
+      message.style.display = "none";
+      message.textContent = "";
 
-    });
-  </script>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.querySelector("form");
-
-  if (!form) {
-    console.error("Formulaire de connexion introuvable.");
-    return;
-  }
-
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    const inputs = form.querySelectorAll("input");
-
-    const username = inputs[0]?.value.trim();
-    const password = inputs[1]?.value;
-
-    if (!username || !password) {
-      alert("Veuillez renseigner votre identifiant et votre mot de passe.");
-      return;
-    }
-
-    const button = form.querySelector("button[type='submit']");
-
-    if (button) {
-      button.disabled = true;
-      button.textContent = "Connexion...";
-    }
-
-    try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          username,
-          password
-        })
-      });
-
-      const data = await response.json();
-
-      if (!response.ok || !data.success) {
-        alert(data.error || "Identifiants incorrects.");
+      if (!username || !password) {
+        message.textContent =
+          "Veuillez renseigner votre identifiant et votre mot de passe.";
+        message.style.display = "block";
         return;
       }
 
-      // Stockage temporaire des informations non sensibles
-      sessionStorage.setItem(
-        "paume_admin_user",
-        JSON.stringify(data.user)
-      );
+      button.disabled = true;
+      button.textContent = "Connexion...";
 
-      // Accès au tableau de bord
-      window.location.href = "tableau%20de%20bord.html";
+      try {
+        const response = await fetch("/api/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            username,
+            password
+          })
+        });
 
-    } catch (error) {
-      console.error(error);
-      alert("Impossible de contacter le serveur.");
-    } finally {
-      if (button) {
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+          message.textContent =
+            data.error || "Identifiants incorrects.";
+          message.style.display = "block";
+          return;
+        }
+
+        sessionStorage.setItem(
+          "paume_admin_user",
+          JSON.stringify(data.user)
+        );
+
+        window.location.href = "dashboard.html";
+
+      } catch (error) {
+        console.error("Erreur de connexion :", error);
+
+        message.textContent =
+          "Impossible de contacter le serveur.";
+        message.style.display = "block";
+
+      } finally {
         button.disabled = false;
         button.textContent = "Se connecter";
       }
-    }
-  });
-});
-</script>
+    });
+  </script>
+
 </body>
 </html>
