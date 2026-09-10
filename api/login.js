@@ -1,5 +1,5 @@
-import { neon } from "@neondatabase/serverless";
-import crypto from "crypto";
+const { neon } = require("@neondatabase/serverless");
+const crypto = require("crypto");
 
 const sql = neon(process.env.DATABASE_URL);
 
@@ -7,9 +7,12 @@ function hashPassword(password, salt) {
   return crypto.scryptSync(password, salt, 64).toString("hex");
 }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
-    return res.status(405).json({ error: "Méthode non autorisée" });
+    return res.status(405).json({
+      success: false,
+      error: "Méthode non autorisée"
+    });
   }
 
   try {
@@ -17,12 +20,13 @@ export default async function handler(req, res) {
 
     if (!username || !password) {
       return res.status(400).json({
+        success: false,
         error: "Nom d'utilisateur et mot de passe requis"
       });
     }
 
     const users = await sql`
-      SELECT id, username, password_hash, role, full_name
+      SELECT id, username, password_hash, role, full_name, role_id
       FROM admin_users
       WHERE username = ${username}
       LIMIT 1
@@ -30,20 +34,18 @@ export default async function handler(req, res) {
 
     if (users.length === 0) {
       return res.status(401).json({
+        success: false,
         error: "Identifiants incorrects"
       });
     }
 
     const user = users[0];
 
-    /*
-     * Le format attendu du hash est :
-     * salt:hash
-     */
     const parts = user.password_hash.split(":");
 
     if (parts.length !== 2) {
       return res.status(500).json({
+        success: false,
         error: "Configuration sécurisée du compte incorrecte"
       });
     }
@@ -53,13 +55,19 @@ export default async function handler(req, res) {
 
     const calculatedHash = hashPassword(password, salt);
 
-    const valid = crypto.timingSafeEqual(
-      Buffer.from(storedHash, "hex"),
-      Buffer.from(calculatedHash, "hex")
-    );
+    const storedBuffer = Buffer.from(storedHash, "hex");
+    const calculatedBuffer = Buffer.from(calculatedHash, "hex");
+
+    const valid =
+      storedBuffer.length === calculatedBuffer.length &&
+      crypto.timingSafeEqual(
+        storedBuffer,
+        calculatedBuffer
+      );
 
     if (!valid) {
       return res.status(401).json({
+        success: false,
         error: "Identifiants incorrects"
       });
     }
@@ -70,6 +78,7 @@ export default async function handler(req, res) {
         id: user.id,
         username: user.username,
         role: user.role,
+        role_id: user.role_id,
         full_name: user.full_name
       }
     });
@@ -78,7 +87,8 @@ export default async function handler(req, res) {
     console.error("Erreur login :", error);
 
     return res.status(500).json({
+      success: false,
       error: "Erreur interne du serveur"
     });
   }
-}
+};
